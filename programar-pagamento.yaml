@@ -1,0 +1,67 @@
+openapi: 3.0.4
+info:
+  title: Pagamentos API - Mock
+  description: API de simulação de pagamentos para integração com Wings.
+  version: 1.0.0
+servers:
+  - url: https://pagamentos-web.free.beeceptor.com
+paths:
+  /api/pagamentos/simulacao_beeceptor:
+    post:
+      summary: Agendar pagamento
+      description: Endpoint para simular agendamento de pagamento.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: string
+                  example: "2025-11-03"
+                  description: Data do pagamento
+                valor_total:
+                  type: number
+                  format: float
+                  example: 2500.00
+                  description: Valor total do pagamento
+                banco:
+                  type: string
+                  example: "001"
+                  description: Código do banco
+                agencia:
+                  type: string
+                  example: "1234"
+                  description: Número da agência
+                conta:
+                  type: string
+                  example: "56789-0"
+                  description: Número da conta
+      responses:
+        '200':
+          description: Pagamento agendado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "Pagamento agendado"
+                  data_pagamento:
+                    type: string
+                    example: "2025-11-03"
+                  valor_total:
+                    type: number
+                    format: float
+                    example: 2500.00
+                  banco:
+                    type: string
+                    example: "001"
+                  agencia:
+                    type: string
+                    example: "1234"
+                  conta:
+                    type: string
+                    example: "56789-0"
