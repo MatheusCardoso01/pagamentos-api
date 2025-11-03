@@ -5,63 +5,108 @@ info:
   version: 1.0.0
 servers:
   - url: https://pagamentos-web.free.beeceptor.com
+    description: Servidor de mock de pagamentos
+tags:
+  - name: pagamentos
+    description: Operações de simulação de pagamentos
 paths:
   /api/pagamentos/simulacao_beeceptor:
     post:
+      tags:
+        - pagamentos
       summary: Agendar pagamento
       description: Endpoint para simular agendamento de pagamento.
+      operationId: agendarPagamento
       requestBody:
+        description: Dados do pagamento a ser agendado
         required: true
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                data:
-                  type: string
-                  example: "2025-11-03"
-                  description: Data do pagamento
-                valor_total:
-                  type: number
-                  format: float
-                  example: 2500.00
-                  description: Valor total do pagamento
-                banco:
-                  type: string
-                  example: "001"
-                  description: Código do banco
-                agencia:
-                  type: string
-                  example: "1234"
-                  description: Número da agência
-                conta:
-                  type: string
-                  example: "56789-0"
-                  description: Número da conta
+              $ref: "#/components/schemas/Pagamento"
       responses:
-        '200':
+        "200":
           description: Pagamento agendado com sucesso
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: "Pagamento agendado"
-                  data_pagamento:
-                    type: string
-                    example: "2025-11-03"
-                  valor_total:
-                    type: number
-                    format: float
-                    example: 2500.00
-                  banco:
-                    type: string
-                    example: "001"
-                  agencia:
-                    type: string
-                    example: "1234"
-                  conta:
-                    type: string
-                    example: "56789-0"
+                $ref: "#/components/schemas/PagamentoResponse"
+        "400":
+          description: Dados inválidos
+        default:
+          description: Erro inesperado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+        - api_key: []
+components:
+  schemas:
+    Pagamento:
+      type: object
+      required:
+        - data
+        - valor_total
+        - banco
+        - agencia
+        - conta
+      properties:
+        data:
+          type: string
+          example: "2025-11-03"
+          description: Data do pagamento
+        valor_total:
+          type: number
+          format: float
+          example: 2500.00
+          description: Valor total do pagamento
+        banco:
+          type: string
+          example: "001"
+          description: Código do banco
+        agencia:
+          type: string
+          example: "1234"
+          description: Número da agência
+        conta:
+          type: string
+          example: "56789-0"
+          description: Número da conta
+    PagamentoResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "Pagamento agendado"
+        data_pagamento:
+          type: string
+          example: "2025-11-03"
+        valor_total:
+          type: number
+          format: float
+          example: 2500.00
+        banco:
+          type: string
+          example: "001"
+        agencia:
+          type: string
+          example: "1234"
+        conta:
+          type: string
+          example: "56789-0"
+    Error:
+      required:
+        - code
+        - message
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
