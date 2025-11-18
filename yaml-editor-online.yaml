@@ -1,0 +1,57 @@
+openapi: 3.0.3
+info:
+  title: API - Solicitar Equipamentos e Gerar Nota Fiscal
+  version: 1.0.0
+  description: Endpoint para solicitar equipamentos e gerar uma Nota Fiscal.
+
+paths:
+  /DomainFunctions/MatheusCardoso/2025_1/SolicitarEquipamentosEGerarNF:
+    post:
+      summary: Solicita equipamentos e gera uma Nota Fiscal.
+      operationId: SolicitarEquipamentosEGerarNF
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SolicitarEquipamentosRequest"
+      responses:
+        "200":
+          description: Nota Fiscal gerada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotaFiscal"
+        "400":
+          description: Requisição inválida
+        "500":
+          description: Erro interno
+
+components:
+  schemas:
+    SolicitarEquipamentosRequest:
+      type: object
+      properties:
+        NomeSolicitante:
+          type: string
+        Departamento:
+          type: string
+        EquipamentosSolicitados:
+          type: array
+          items:
+            type: string
+      required:
+        - NomeSolicitante
+        - EquipamentosSolicitados
+
+    NotaFiscal:
+      type: object
+      properties:
+        NumeroNF:
+          type: string
+        DataChegadaEquipamentos:
+          type: string
+          format: date-time
+      required:
+        - NumeroNF
+        - DataChegadaEquipamentos
