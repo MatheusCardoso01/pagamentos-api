@@ -13,7 +13,7 @@
   ],
   "paths": {
     "/DomainFunctions/MatheusCardoso/2025_1/SolicitarEquipamentosEGerarNF": {
-      "post": {
+      "get": {
         "summary": "Solicitar equipamentos e gerar Nota Fiscal",
         "description": "Processa a solicitação e retorna os dados da Nota Fiscal gerada.",
         "responses": {
@@ -55,3 +55,4 @@
     }
   }
 }
+
